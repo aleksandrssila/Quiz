@@ -2,23 +2,27 @@ package application.Models;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import core.dbClass;
 import application.Entities.User;
 
 public class UserModel {
-		
-	public static void main(String[] args) {
-		
-		UserModel test = new UserModel();
-		User user = test.loginUser("test", "test");
-		
-		System.out.println(user.getId());
-		System.out.println(user.getName());
-		System.out.println(user.getPassword());
-		
-	}
 	
+	private List<User> userList;
+	/**
+	 * 
+	 * @return
+	 */
+	public List<User> getUserList(){
+		return this.userList;
+	}
+	/**
+	 * 
+	 * @param username
+	 * @param password
+	 * @return User
+	 */
 	public User loginUser(String username, String password){
 		
 		User user = new User();
@@ -26,9 +30,7 @@ public class UserModel {
 		String query = 	"SELECT * FROM user " +
 						"WHERE user_name = '"+username+"' "+
 						"AND user_password = '"+password+"'";
-		
-		System.out.println(query);
-		
+				
 		dbClass db = new dbClass();
 		
 		ResultSet result = db.dataEnquery(query);
