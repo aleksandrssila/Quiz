@@ -8,9 +8,6 @@ import application.Entities.Question;
 
 public class QuestionModel {
 	
-	public List<Question> questionList;
-	
-	
 	public Question getQuestion(int id) throws NullPointerException{
 		
 		Question question = new Question();
@@ -49,9 +46,9 @@ public class QuestionModel {
 		
 	}
 	
-	public void getQuizQuestions(int quizId){
+	public List<Question> getQuizQuestions(int quizId){
 		
-		this.questionList = new ArrayList<Question>();
+		List<Question> questionList = new ArrayList<Question>();
 		
 		String query = 	"SELECT * FROM quiz_questions " +
 						"WHERE quiz_id = '"+quizId+"'";
@@ -69,7 +66,7 @@ public class QuestionModel {
 					question.setQuizId(result.getInt("quiz_id"));
 					question.setQuestionText(result.getString("question_text"));
 					
-					this.questionList.add(question);
+					questionList.add(question);
 				}
 				
 				db.closeConnection();
@@ -80,6 +77,8 @@ public class QuestionModel {
 			}
 			
 		}
+		
+		return questionList;
 				
 	}
 
