@@ -29,6 +29,7 @@ public Quiz getQuiz(int id) throws NullPointerException{
 					quiz.setId(result.getInt("quiz_id"));
 					quiz.setName(result.getString("quiz_name"));
 					quiz.setOwner(result.getInt("quiz_owner"));
+					quiz.setOwner(result.getInt("quiz_status"));
 				}
 				
 				db.closeConnection();
@@ -68,7 +69,46 @@ public Quiz getQuiz(int id) throws NullPointerException{
 					quiz.setId(result.getInt("quiz_id"));
 					quiz.setName(result.getString("quiz_name"));
 					quiz.setOwner(result.getInt("quiz_owner"));
+					quiz.setStatus(result.getInt("quiz_status"));
 					
+					quizList.add(quiz);
+				}
+				
+				db.closeConnection();
+			} 
+			catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+		return quizList;
+	}
+	
+public List<Quiz> getActiveQuizList(){
+		
+		List<Quiz> quizList = new ArrayList<Quiz>();
+		
+		
+		String query = 	"SELECT * FROM quiz " +
+						"WHERE quiz_status IS NOT NULL "+
+						"ORDER BY quiz_id";
+		
+				
+		dbClass db = new dbClass();
+		ResultSet result = db.dataEnquery(query);
+		
+		if(result != null){
+			try {
+
+				while (result.next()) {
+					Quiz quiz = new Quiz();
+					quiz.setId(result.getInt("quiz_id"));
+					quiz.setName(result.getString("quiz_name"));
+					quiz.setOwner(result.getInt("quiz_owner"));
+					quiz.setStatus(result.getInt("quiz_status"));
+				
 					quizList.add(quiz);
 				}
 				

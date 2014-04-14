@@ -5,6 +5,7 @@ public class Quiz {
 	private int id;
 	private String name;
 	private int owner;
+	private int status;
 	/**
 	 * 
 	 * @param id
@@ -28,6 +29,13 @@ public class Quiz {
 	}
 	/**
 	 * 
+	 * @param status
+	 */
+	public void setStatus(int status){
+		this.status = status;
+	}
+	/**
+	 * 
 	 * @return
 	 */
 	public int getId(){
@@ -46,5 +54,12 @@ public class Quiz {
 	 */
 	public int getOwner(){
 		return this.owner;
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	public int getStatus(){
+		return this.status;
 	}
 }

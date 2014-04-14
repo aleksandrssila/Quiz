@@ -23,13 +23,12 @@ public class UserModel {
 	 * @param password
 	 * @return User
 	 */
-	public User loginUser(String username, String password){
+	public User getUserByLogin(String username){
 		
 		User user = new User();
 		
 		String query = 	"SELECT * FROM user " +
-						"WHERE user_name = '"+username+"' "+
-						"AND user_password = '"+password+"'";
+						"WHERE user_name = '"+username+"'";
 				
 		dbClass db = new dbClass();
 		
