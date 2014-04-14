@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import application.Models.QuestionModel;
 import application.Models.QuizGameModel;
+import application.Entities.Answer;
 import application.Entities.Question;
 import application.Entities.Quiz;
 import application.Entities.QuizGame;
@@ -20,10 +21,18 @@ public static void main(String[] args) {
 	List<QuizGame> quizGameTest = new ArrayList<QuizGame>();
 	QuizGameModel test = new QuizGameModel();
 	quizGameTest =  test.getQuizGame(quiz);	
-	System.out.println(quizGameTest);
 	
 	
 	
+	 QuizGame qgame = new QuizGame();
+	 
+	 qgame = quizGameTest.get(0);
+	 	
+	 System.out.println(qgame.question.getQuestionText());	 
+	 
+	 for(Answer answerss:qgame.answers) {
+         System.out.println(answerss.getText());
+     }
 		
 	
 	/*
