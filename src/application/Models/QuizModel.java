@@ -5,9 +5,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import application.Entities.Question;
 import application.Entities.Quiz;
-import core.dbClass;
+import application.Entities.User;
+import core.Global;
 
 public class QuizModel {
 	
@@ -19,31 +19,32 @@ public Quiz getQuiz(int id) throws NullPointerException{
 						"WHERE quiz_id = '"+id+"'";
 		
 				
-		dbClass db = new dbClass();
-		ResultSet result = db.dataEnquery(query);
+		// get results from db		
+		Global.dataBase.getInstance().dataEnquery(query);
+		ResultSet result = Global.dataBase.getInstance().getResult();
 		
-		if(result != null){
-			try {
+		try {
 
-				while (result.next()) {
-					quiz.setId(result.getInt("quiz_id"));
-					quiz.setName(result.getString("quiz_name"));
-					quiz.setOwner(result.getInt("quiz_owner"));
-					quiz.setOwner(result.getInt("quiz_status"));
-				}
-				
-				db.closeConnection();
-			} 
-			catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			while (result.next()) {
+				quiz.setId(result.getInt("quiz_id"));
+				quiz.setName(result.getString("quiz_name"));
+				quiz.setOwner(result.getInt("quiz_owner"));
+				quiz.setOwner(result.getInt("quiz_status"));
 			}
 			
+		} 
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
+			
+	
 		if(quiz.getId() == 0){
+			Global.dataBase.getInstance().closeConnection();
 			throw new NullPointerException("Not found in datbase");
 		}
+		
+		Global.dataBase.getInstance().closeConnection();
 		
 		return quiz;
 		
@@ -58,8 +59,9 @@ public Quiz getQuiz(int id) throws NullPointerException{
 		String query = 	"SELECT * FROM quiz ORDER BY quiz_id";
 		
 				
-		dbClass db = new dbClass();
-		ResultSet result = db.dataEnquery(query);
+		// get results from db		
+		Global.dataBase.getInstance().dataEnquery(query);
+		ResultSet result = Global.dataBase.getInstance().getResult();
 		
 		if(result != null){
 			try {
@@ -73,8 +75,6 @@ public Quiz getQuiz(int id) throws NullPointerException{
 					
 					quizList.add(quiz);
 				}
-				
-				db.closeConnection();
 			} 
 			catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -83,10 +83,12 @@ public Quiz getQuiz(int id) throws NullPointerException{
 			
 		}
 		
+		Global.dataBase.getInstance().closeConnection();
+		
 		return quizList;
 	}
 	
-public List<Quiz> getActiveQuizList(){
+	public List<Quiz> getActiveQuizList(){
 		
 		List<Quiz> quizList = new ArrayList<Quiz>();
 		
@@ -96,8 +98,9 @@ public List<Quiz> getActiveQuizList(){
 						"ORDER BY quiz_id";
 		
 				
-		dbClass db = new dbClass();
-		ResultSet result = db.dataEnquery(query);
+		// get results from db		
+		Global.dataBase.getInstance().dataEnquery(query);
+		ResultSet result = Global.dataBase.getInstance().getResult();
 		
 		if(result != null){
 			try {
@@ -112,7 +115,6 @@ public List<Quiz> getActiveQuizList(){
 					quizList.add(quiz);
 				}
 				
-				db.closeConnection();
 			} 
 			catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -121,7 +123,31 @@ public List<Quiz> getActiveQuizList(){
 			
 		}
 		
+		Global.dataBase.getInstance().closeConnection();
+		
 		return quizList;
+	}
+	
+	public Quiz createQuiz(Quiz newquiz){
+		
+		String query = 	"INSERT INTO quiz VALUES (NULL,'"+newquiz.getName()+"','"+newquiz.getOwner()+"',NULL)";
+				
+		// get results from db		
+		Global.dataBase.getInstance().insertEnquery(query);
+
+		try {
+			ResultSet keys = Global.dataBase.getInstance().getStatement().getGeneratedKeys();
+			if(keys.next()){
+				newquiz.setId(keys.getInt(1));
+			}  
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} 
+		
+		Global.dataBase.getInstance().closeConnection();
+		
+		return newquiz;
+		
 	}
 
 }

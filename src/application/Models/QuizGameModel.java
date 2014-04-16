@@ -1,11 +1,8 @@
 package application.Models;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import core.dbClass;
+import core.Global;
 import application.Entities.Answer;
 import application.Entities.Question;
 import application.Entities.Quiz;
@@ -18,6 +15,8 @@ public class QuizGameModel{
 		List<QuizGame> quizGame    = new ArrayList<QuizGame>();
 		List<Question> questions   = new ArrayList<Question>();
 		QuestionModel getQuestions = new QuestionModel();
+		
+		Global.dataBase.getInstance().useDb();
 		
 		questions = getQuestions.getQuizQuestions(quiz.getId());
 		
@@ -34,7 +33,9 @@ public class QuizGameModel{
 			 quizGame.add(qgame);	 		 
 	     }
 		
-		
+		Global.dataBase.getInstance().notUseDb();
+		Global.dataBase.getInstance().closeConnection();
+		 
 		return quizGame;
 		
 	}

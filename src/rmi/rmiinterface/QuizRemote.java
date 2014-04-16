@@ -4,7 +4,25 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface QuizRemote extends Remote{
+	/**
+	 * Get user from database
+	 * @param user
+	 * @return
+	 * @throws RemoteException
+	 */
+	boolean getUserDetails() throws RemoteException;
+	/**
+	 * 
+	 * @throws RemoteException
+	 */
+	void showQuizGames() throws RemoteException;
+	/**
+	 * 
+	 * @param num
+	 * @throws RemoteException
+	 */
+	void getQuizGame() throws RemoteException;
 	
-	public boolean isValidLogin(String username, String password) throws RemoteException;
-
+	String askActionOption() throws RemoteException;
+	
 }

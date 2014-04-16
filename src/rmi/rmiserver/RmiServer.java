@@ -11,12 +11,12 @@ public class RmiServer {
 	
 	public static void main (String[] args) throws RemoteException, AlreadyBoundException{
 		
-		RemoteServerImpl rImpl = new RemoteServerImpl();
-		Registry registry = LocateRegistry.createRegistry(Constant.RMI_PORT);
-		registry.bind(Constant.RMI_ID, rImpl);
-		
-		System.out.println("Server have started");
-		
+			RemoteServerImpl rImpl = new RemoteServerImpl();
+			Registry registry = LocateRegistry.createRegistry(Constant.RMI_PORT);
+			registry.bind(Constant.RMI_ID, rImpl);	
+			System.out.println("---- Server started ----");
+			System.out.println("");
+			
 	}
 
 }

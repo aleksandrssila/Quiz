@@ -10,6 +10,7 @@ public class UserInputManager {
 	
 	public  String  username;
 	public  String  password;
+	public  String  action;
 	private Pattern pattern;
 	private Matcher matcher;
 
@@ -49,7 +50,7 @@ public class UserInputManager {
 	public int askForInt(){
 		Scanner userInput = new Scanner( System.in );
 		
-		System.out.print("Enter quiz id that you would like to play: ");
+		System.out.print("Option: ");
 		try{
 			int quizId   = userInput.nextInt();
 			return quizId;
@@ -62,6 +63,52 @@ public class UserInputManager {
 		return 0;
 		
 		
+	}
+	
+	public boolean askRegistration(){
+		
+		Scanner userInput = new Scanner( System.in );
+		
+		boolean answer   = false;
+		boolean register = false;
+		
+		while(!answer){
+
+			System.out.print("Would you like to register? (yes/no): ");
+			String ans = userInput.nextLine( );
+			
+			if(ans.equals("yes")){
+				register = true;
+				answer = true;
+			}
+			
+			if(ans.equals("no")){
+				register = false;
+				answer = true;
+			}
+		}
+			
+		return register;
+		
+	}
+	
+public void askAction() throws NullPointerException,IllegalArgumentException{
+		
+		Scanner userInput = new Scanner( System.in );
+		
+		System.out.print("(play/see score/remove quiz): ");
+		this.action   = userInput.nextLine( );
+		
+		if(this.action.equals(null)){
+			throw new NullPointerException("Error! Empty field");
+		}
+		
+		if(!(this.action.equals("play"))
+		 &&!(this.action.equals("see score"))	
+		 &&!(this.action.equals("remove quiz"))){
+			throw new IllegalArgumentException("Wrong input");
+		}
+				
 	}
 	 /**
 	   * Validate username with regular expression

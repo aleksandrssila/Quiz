@@ -3,7 +3,8 @@ package application.Models;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import core.dbClass;
+
+import core.Global;
 import application.Entities.Question;
 
 public class QuestionModel {
@@ -16,8 +17,9 @@ public class QuestionModel {
 						"WHERE question_id = '"+id+"'";
 		
 				
-		dbClass db = new dbClass();
-		ResultSet result = db.dataEnquery(query);
+		// get results from db		
+		Global.dataBase.getInstance().dataEnquery(query);
+		ResultSet result = Global.dataBase.getResult();
 		
 		if(result != null){
 			try {
@@ -29,7 +31,6 @@ public class QuestionModel {
 					question.setQuestionText(result.getString("question_text"));
 				}
 				
-				db.closeConnection();
 			} 
 			catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -53,30 +54,31 @@ public class QuestionModel {
 		String query = 	"SELECT * FROM quiz_questions " +
 						"WHERE quiz_id = '"+quizId+"'";
 		
-		dbClass db = new dbClass();
-		ResultSet result = db.dataEnquery(query);
+		// get results from db		
+		Global.dataBase.getInstance().dataEnquery(query);
+		ResultSet result = Global.dataBase.getInstance().getResult();
 		
-		if(result != null){
-			try {
+		try {
 
-				while (result.next()) {
-					Question question = new Question();
-					question.setId(result.getInt("question_id"));
-					question.setAnswerId(result.getInt("answer_id"));
-					question.setQuizId(result.getInt("quiz_id"));
-					question.setQuestionText(result.getString("question_text"));
-					
-					questionList.add(question);
-				}
+			while (result.next()) {
 				
-				db.closeConnection();
-			} 
-			catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Question question = new Question();
+				question.setId(result.getInt("question_id"));
+				question.setAnswerId(result.getInt("answer_id"));
+				question.setQuizId(result.getInt("quiz_id"));
+				question.setQuestionText(result.getString("question_text"));
+				
+				questionList.add(question);
 			}
 			
+		} 
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+			
+		
+		Global.dataBase.getInstance().closeConnection();
 		
 		return questionList;
 				

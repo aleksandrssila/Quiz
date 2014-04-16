@@ -6,65 +6,139 @@ import application.Models.UserModel;
 
 public class UserController {
 	
-	public  User 		user;
-	private int         attemps;
-	private UserModel   userModel;
+	public  User 			 user;
+	public  UserModel   	 userModel;
+	public  int         	 lAttempts;
 	
-	public boolean authenticateUser(){	
+	public UserController(){
+		this.user 	    = new User();
+		this.userModel  = new UserModel();
+		this.lAttempts  = 0;
+	}
+	/*
+	public static void main (String[] args){
+		
+		UserController userC = new UserController();
+		String action = userC.askAction();
+		
+		System.out.println(action);
+	}
+	*/
+	public String askAction(){
+		
+		System.out.println("---------------------");
+		System.out.println("What you want to do ?");
+		System.out.println("---------------------");
 		
 		UserInputManager inpManager = new UserInputManager();
-				
-		boolean auth = false;
-				
-		while(!auth){
-			
-			if(this.attemps > 3){
-				System.out.println("You have fail to many times.Please restart aplication.");
-				return false;
-			}
+		String action = null;
+		boolean act = false;
+		
+		while(!act){
 			
 			try{
-				
-				inpManager.askLoginDetails();
-				boolean valid = this.getUserByUsernameAndPassword(inpManager.username, inpManager.password);
-				System.out.println(valid);
-				if(valid){
-					auth = true;
-					break;
-				}else{
-					this.attemps++;				
+				inpManager.askAction();
+				if(inpManager.action !=null){
+					action = inpManager.action;
+					act = true;
 				}
 			}
 			catch(NullPointerException e){
 				System.out.println(e.getMessage());
-				continue;
 			}
 			catch(IllegalArgumentException e){
 				System.out.println(e.getMessage());
-				continue;
+			}	
+		}
+			
+		return action;
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean askLoginDetails(){
+				
+		boolean loged = false;
+		boolean newUser = false;
+		
+		while(!loged){
+						
+			try{
+				
+				UserInputManager inpManager = new UserInputManager();
+				
+				inpManager.askLoginDetails();
+				
+				if(!(inpManager.username.equals(null))&&!(inpManager.password.equals(null))){
+					
+					this.setUser(this.userModel.getUserByLogin(inpManager.username));
+										
+					if(this.user.getName() == null){
+						
+						System.out.println("You are not in the database.");
+						newUser = inpManager.askRegistration();
+						
+						if(newUser){
+							System.out.println("Registration details");
+							loged = this.registerUser();
+							break;
+						}
+					}
+					else if(this.user.getId() > 0){
+						if(this.user.getPassword().equals(inpManager.password)){
+							loged = true;
+							break;
+						}
+					}
+					else{
+						System.out.println("Wrong Details");
+						loged = false;
+					}
+				}
 			}
+			catch(NullPointerException e){
+				System.out.println(e.getMessage());
+			}
+			catch(IllegalArgumentException e){
+				System.out.println(e.getMessage());
+			}	
 		}
 		
-		return true;	
+		return loged;	
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean registerUser(){
+		
+		
+		User newuser = new User();
+		boolean complete = false;
+		
+		while(!complete){
+			UserInputManager inpM = new UserInputManager();
+			inpM.askLoginDetails();
+			
+			if((inpM.password !=null)&&(inpM.username != null)){
+				newuser.setName(inpM.username);
+				newuser.setPassword(inpM.password);
+			
+				this.user = this.userModel.createUser(newuser);
+				complete = true;
+			}
 
-	}
-	
-	
-	public boolean getUserByUsernameAndPassword(String username, String password){
-		
-		this.userModel = new UserModel();
-		this.user      = new User();
-		
-		
-		this.user = this.userModel.getUserByLogin(username);
-		
-		if(this.user.getId() != 0){
-			if(this.user.getPassword().equals(password)){
-				return true;
-			}
 		}
 		
-		return false;
-	
+		return (this.user.getId() > 0) ? true : false;	
 	}
+	/**
+	 * 
+	 * @param user
+	 */
+	public void setUser(User user){
+		this.user = user;
+	}
+	
 }

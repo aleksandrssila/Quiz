@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import core.dbClass;
+import core.Global;
 import application.Entities.User;
 
 public class UserModel {
@@ -29,30 +29,49 @@ public class UserModel {
 		
 		String query = 	"SELECT * FROM user " +
 						"WHERE user_name = '"+username+"'";
-				
-		dbClass db = new dbClass();
 		
-		ResultSet result = db.dataEnquery(query);
+
+		// get results from db		
+		Global.dataBase.getInstance().dataEnquery(query);
+		ResultSet result = Global.dataBase.getInstance().getResult();
 		
-		if(result != null){
-			try {
-				
-				while (result.next()) {
-					user.setId(result.getInt("user_id"));
-					user.setName(result.getString("user_name"));
-					user.setPassword(result.getString("user_password"));
-				}
-				
-				db.closeConnection();
-			} 
-			catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		try {
 			
+			while(result.next()) {
+				user.setId(result.getInt("user_id"));
+				user.setName(result.getString("user_name"));
+				user.setPassword(result.getString("user_password"));
+			}			
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
 		}
-		
+					
+		Global.dataBase.getInstance().closeConnection();
+				
 		return user;
+		
+	}
+	
+	public User createUser(User newuser){
+				
+		String query = 	"INSERT INTO user VALUES (NULL,'"+newuser.getName()+"','"+newuser.getPassword()+"')";
+				
+		// get results from db		
+		Global.dataBase.getInstance().insertEnquery(query);
+
+		try {
+			ResultSet keys = Global.dataBase.getInstance().getStatement().getGeneratedKeys();
+			if(keys.next()){
+				newuser.setId(keys.getInt(1));
+			}  
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} 
+		
+		Global.dataBase.getInstance().closeConnection();
+		
+		return newuser;
 		
 	}
 
