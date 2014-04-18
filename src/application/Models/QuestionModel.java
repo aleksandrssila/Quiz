@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import core.Global;
+import application.Entities.Answer;
 import application.Entities.Question;
 
 public class QuestionModel {
@@ -82,6 +83,29 @@ public class QuestionModel {
 		
 		return questionList;
 				
+	}
+	
+	public Question insertQuestion(Question question){
+		
+		String query = 	"INSERT INTO quiz_questions " +
+						"VALUES (NULL,"+question.getQuizId()+",'"+question.getAnswerId()+"','"+question.getQuestionText()+"')";
+
+		// get results from db		
+		Global.dataBase.getInstance().insertEnquery(query);
+
+		try {
+			ResultSet keys = Global.dataBase.getInstance().getStatement().getGeneratedKeys();
+			if(keys.next()){
+				question.setId(keys.getInt(1));
+			}  
+		} catch (SQLException e) {
+			System.out.println("Name exist, please chose different");
+		} 
+		
+		Global.dataBase.getInstance().closeConnection();
+		
+		return question;
+		
 	}
 
 }

@@ -5,20 +5,27 @@ import java.util.List;
 import core.UserInputManager;
 import application.Models.QuizGameModel;
 import application.Models.QuizModel;
+import application.Models.UserModel;
 import application.Entities.Answer;
 import application.Entities.Question;
 import application.Entities.Quiz;
 import application.Entities.QuizGame;
+import application.Entities.Result;
+import application.Entities.User;
 
 public class QuizGameController {
 	
 	public  Quiz quiz;
 	public  List<QuizGame> quizGame;
+	private Result result;
 	private List<Quiz> quizList;
-	private int score;
 	/**
 	 * 
 	 */
+	public QuizGameController(){
+		this.quiz   = new Quiz();
+		this.result = new Result();
+	}
 	public void getAllQuizez(){
 		
 		this.quizList = new ArrayList<Quiz>();
@@ -39,13 +46,13 @@ public class QuizGameController {
 	/**
 	 * 
 	 */
-	public boolean loadQuiz(){
+	public boolean loadQuiz(User user){
 		
 		boolean correct = false;
 		
 		while(!correct){
 			
-			UserInputManager userMamager = new UserInputManager();
+			UserInputManager userMamager = new UserInputManager("INTIGER_PATTERT");
 			
 			int num = userMamager.askForInt();
 			
@@ -54,11 +61,26 @@ public class QuizGameController {
 				try{
 					// selected quiz
 					this.quiz = this.quizList.get(num);	
-					// load quiz game 
-					QuizGameModel getQuizGame = new QuizGameModel();
-					this.quizGame = getQuizGame.getQuizGame(this.quiz);
-					// break loop
-					correct = true;
+					
+					// check if user have played this quiz
+					UserModel userM = new UserModel();
+					this.result = userM.getUserResultByQuizId(this.quiz.getId(), user.getId());
+					// if result exist in database
+					if(this.result.getId() > 0){
+						// show message
+						System.out.println("");
+						System.out.println("You have played this quiz");
+						System.out.println("Score : "+this.result.getScore());
+						System.out.println("Data  : "+this.result.getData());
+						System.out.println("");
+					}
+					else{
+						// load quiz game 
+						QuizGameModel getQuizGame = new QuizGameModel();
+						this.quizGame = getQuizGame.getQuizGame(this.quiz);
+						// break loop
+						correct = true;
+					}
 				}
 				catch(IndexOutOfBoundsException e){
 					System.out.println("This number is wrong");
@@ -73,6 +95,7 @@ public class QuizGameController {
 	public void playGame(){
 		// question number
 		int $i = 1;
+		int finalScore = 0;
 		// show quiz question and answers
 		for(QuizGame qgame:this.quizGame){
 			/** VAR question Question **/
@@ -98,7 +121,7 @@ public class QuizGameController {
 				a++;
 			}
 			/** VAR inpMan UserInputManager**/
-			UserInputManager inpMan = new UserInputManager();
+			UserInputManager inpMan = new UserInputManager("USERNAME_PATTERN");
 			
 			boolean nextQuestion 	= false;	
 			
@@ -111,7 +134,7 @@ public class QuizGameController {
 					try{
 						Answer chosenAnsw = qgame.getAnswers().get(num);
 						if(chosenAnsw.getId() == question.getAnswerId()){
-							this.score++;
+							finalScore++;
 							nextQuestion = true;
 						}else{
 							nextQuestion = true;
@@ -125,8 +148,8 @@ public class QuizGameController {
 			}
 			
 		}
-		
-		System.out.println("Your score is: "+this.score);
+		this.result.setScore(finalScore);
+		System.out.println("Your score is: "+this.result.getScore());
 		/**
 		 * @TODO save the score
 		 */	

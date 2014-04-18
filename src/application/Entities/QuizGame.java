@@ -1,11 +1,17 @@
 package application.Entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class QuizGame {
 	
 	public Question question;
 	public List<Answer> answers;
+	
+	public  QuizGame(){
+		this.question = new Question();
+		this.answers  = new ArrayList<Answer>();
+	}
 	/**
 	 * 
 	 * @param answers

@@ -105,7 +105,7 @@ public class dbClass {
 							
 		}
 		catch (Exception e) {
-			System.out.println("Please chose different login");
+			System.out.println(e.getMessage());
 		} 	
 	} 
 	/**

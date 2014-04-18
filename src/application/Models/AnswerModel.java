@@ -6,6 +6,7 @@ import java.util.List;
 
 import core.Global;
 import application.Entities.Answer;
+import application.Entities.Quiz;
 
 public class AnswerModel {
 	
@@ -44,6 +45,53 @@ public class AnswerModel {
 	    Global.dataBase.getInstance().closeConnection();
 		
 		return answers;
+		
+	}
+	
+	public Answer insertAnswer(Answer answer){
+		
+		String query = 	"INSERT INTO quiz_answers " +
+						"VALUES (NULL,'"+answer.getQuestionId()+"','"+answer.getText()+"')";
+				
+		// get results from db		
+		Global.dataBase.getInstance().insertEnquery(query);
+
+		try {
+			ResultSet keys = Global.dataBase.getInstance().getStatement().getGeneratedKeys();
+			if(keys.next()){
+				answer.setId(keys.getInt(1));
+			}  
+		} catch (SQLException e) {
+			System.out.println("Name exist, please chose different");
+		} 
+		
+		Global.dataBase.getInstance().closeConnection();
+		
+		return answer;
+		
+	}
+	
+	public Answer updateAnswerQuestionId(Answer answer, int questionid){
+		
+		String query = 	"UPDATE quiz_answers " +
+						"SET question_id ="+questionid+" " +
+						"WHERE answer_id="+answer.getId();
+		
+		// get results from db		
+		Global.dataBase.getInstance().insertEnquery(query);
+
+		try {
+			ResultSet keys = Global.dataBase.getInstance().getStatement().getGeneratedKeys();
+			if(keys.next()){
+				answer.setId(keys.getInt(1));
+			}  
+		} catch (SQLException e) {
+			System.out.println("Name exist, please chose different");
+		} 
+		
+		Global.dataBase.getInstance().closeConnection();
+		
+		return answer;
 		
 	}
 
