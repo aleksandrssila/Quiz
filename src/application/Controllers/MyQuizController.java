@@ -59,7 +59,7 @@ public class MyQuizController {
 		try{
 			if(results.get(0).getId()>0){
 				for(Result res:results){
-					System.out.println(res.getUsername()+": "+res.getScore());
+					System.out.println("score: "+res.getScore()+" Username: "+res.getUsername());
 				}
 			}
 		}catch(IndexOutOfBoundsException e){

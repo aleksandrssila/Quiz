@@ -115,7 +115,6 @@ public class UserModel {
 		
 		List<Result> results = new ArrayList<Result>();
 		
-		Result userR = new Result();
 		// select result from `user_result`
 		String query = 	"SELECT "+
 							"user_result.result_id as id,"+
@@ -137,6 +136,7 @@ public class UserModel {
 		try {
 			// get data from returned result
 			while(result.next()) {
+				Result userR = new Result();
 				// set result class
 				userR.setId(result.getInt("id"));
 				userR.setQuizId(result.getInt("quiz_id"));

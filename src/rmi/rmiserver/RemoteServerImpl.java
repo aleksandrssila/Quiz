@@ -71,8 +71,7 @@ public class RemoteServerImpl extends UnicastRemoteObject implements QuizRemote{
 
 	@Override
 	public void seeQuizScore() throws RemoteException {
-		// TODO Auto-generated method stub
-		
+		this.mquizC.seeQuizScore(this.userC.user);
 	}
 
 }
