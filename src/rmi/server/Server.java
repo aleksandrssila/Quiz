@@ -4,8 +4,7 @@ import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-
-import rmi.rmiinterface.Constant;
+import rmi.remote.Constant;
 
 public class Server {
 	

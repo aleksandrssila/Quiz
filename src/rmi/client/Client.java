@@ -7,8 +7,8 @@ import java.rmi.RemoteException;
 import java.rmi.UnmarshalException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import rmi.rmiinterface.Constant;
-import rmi.rmiinterface.QuizRemote;
+import rmi.remote.Constant;
+import rmi.remote.QuizRemote;
 
 public class Client {
 	

@@ -2,7 +2,8 @@ package rmi.server;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import rmi.rmiinterface.QuizRemote;
+
+import rmi.remote.QuizRemote;
 import application.Controllers.MyQuizController;
 import application.Controllers.QuizGameController;
 import application.Controllers.UserController;
