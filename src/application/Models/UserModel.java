@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import core.Global;
+import application.Entities.Question;
 import application.Entities.Result;
 import application.Entities.User;
 
@@ -155,6 +156,29 @@ public class UserModel {
 		Global.dataBase.getInstance().closeConnection();
 				
 		return results;
+		
+	}
+	
+	public Result insertUserResult(Result result){
+		
+		String query =  "INSERT INTO user_result "+
+						"VALUES(NULL,"+result.getUserId()+","+result.getQuizId()+",'"+result.getData()+"',"+result.getScore()+")";
+
+		// get results from db		
+		Global.dataBase.getInstance().insertEnquery(query);
+
+		try {
+			ResultSet keys = Global.dataBase.getInstance().getStatement().getGeneratedKeys();
+			if(keys.next()){
+				result.setId(keys.getInt(1));
+			}  
+		} catch (SQLException e) {
+			System.out.println("Name exist, please chose different");
+		} 
+		
+		Global.dataBase.getInstance().closeConnection();
+		
+		return result;
 		
 	}
 	

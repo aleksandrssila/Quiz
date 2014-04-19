@@ -1,4 +1,4 @@
-package rmi.rmiinterface;
+package rmi.remote;
 
 public class Constant {
 	

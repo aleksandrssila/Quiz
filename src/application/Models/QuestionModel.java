@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import core.Global;
-import application.Entities.Answer;
 import application.Entities.Question;
 
 public class QuestionModel {

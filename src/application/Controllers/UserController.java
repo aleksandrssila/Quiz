@@ -105,7 +105,7 @@ public class UserController {
 		UserInputManager inpManager = new UserInputManager("USERNAME_PATTERN");
 		// set requirements
 		inpManager.setMessage("-My Quiz Games Profile -");
-		inpManager.setOption("remove-quiz");
+		inpManager.setOption("manage-quiz");
 		inpManager.setOption("add-quiz");
 		inpManager.setOption("see-score");
 		// get answer from user

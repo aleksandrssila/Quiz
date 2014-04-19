@@ -1,4 +1,4 @@
-package rmi.rmiinterface;
+package rmi.remote;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -11,11 +11,6 @@ public interface QuizRemote extends Remote{
 	 * @throws RemoteException
 	 */
 	boolean getUserDetails() throws RemoteException;
-	/**
-	 * Show all available quiz games
-	 * @throws RemoteException
-	 */
-	void showQuizGames() throws RemoteException;
 	/**
 	 * Get quiz game from database
 	 * @param num
@@ -44,5 +39,10 @@ public interface QuizRemote extends Remote{
 	 * @throws RemoteException
 	 */
 	void seeQuizScore() throws RemoteException;
+	/**
+	 * Make quiz status disabled
+	 * @throws RemoteException
+	 */
+	void manageQuiz() throws RemoteException;
 	
 }

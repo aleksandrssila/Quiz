@@ -1,4 +1,4 @@
-package rmi.rmiserver;
+package rmi.server;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -8,7 +8,7 @@ import application.Controllers.QuizGameController;
 import application.Controllers.UserController;
 import application.Entities.User;
 
-public class RemoteServerImpl extends UnicastRemoteObject implements QuizRemote{
+public class QuizRemoteImpl extends UnicastRemoteObject implements QuizRemote{
 	/**
 	 * 
 	 */
@@ -18,7 +18,7 @@ public class RemoteServerImpl extends UnicastRemoteObject implements QuizRemote{
 	public QuizGameController qgameC;
 	public MyQuizController   mquizC;
 
-	protected RemoteServerImpl() throws RemoteException {
+	protected QuizRemoteImpl() throws RemoteException {
 		super();
 		this.userC  = new UserController();
 		this.qgameC = new QuizGameController();
@@ -37,18 +37,13 @@ public class RemoteServerImpl extends UnicastRemoteObject implements QuizRemote{
 	public void setUser(User user){
 		this.userC.user = user;
 	}
-
-	@Override
-	public void showQuizGames() throws RemoteException {
-		this.qgameC.getAllQuizez();
-	}
 	/**
 	 * 
 	 */
 	@Override
 	public void getQuizGame() throws RemoteException {
 		if(this.qgameC.loadQuiz(this.userC.user)){
-			this.qgameC.playGame();
+			this.qgameC.playGame(this.userC.user.getId());
 		}
 	}
 
@@ -72,6 +67,11 @@ public class RemoteServerImpl extends UnicastRemoteObject implements QuizRemote{
 	@Override
 	public void seeQuizScore() throws RemoteException {
 		this.mquizC.seeQuizScore(this.userC.user);
+	}
+
+	@Override
+	public void manageQuiz() throws RemoteException {
+		this.mquizC.manageQuizUserQuizez(this.userC.user.getId());
 	}
 
 }

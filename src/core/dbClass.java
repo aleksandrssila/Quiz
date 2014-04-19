@@ -1,12 +1,8 @@
 package core;
 
 import java.sql.*;
-
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 /**
- * 
  * Class dbClass (singleton pattern)
- *
  */
 public class dbClass {
 	
@@ -44,6 +40,50 @@ public class dbClass {
 	        
 	      return this.instance;
 	 }
+	/**
+	 * 
+	 * @param query
+	 * @return
+	 */
+	public boolean updateEnquery(String query){
+		
+		boolean updated = false;
+		
+		 if(!this.isConnected){
+				
+				try {	
+					Class.forName(this.driver).newInstance();
+					this.conn 		= DriverManager.getConnection(this.url+this.dbName,this.userName,this.password);
+
+				} 
+				catch (Exception e) {
+					e.printStackTrace();		
+				}
+				
+				this.isConnected = true;
+
+			}
+				
+		try {
+			
+			this.st  	= this.conn.prepareStatement(query);
+			int rows    = this.st.executeUpdate();
+			
+			if(rows >0){
+				updated = true;
+			}
+			else{
+				updated = false;
+			}
+							
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return updated; 	
+
+	}
 	/**
 	 * 
 	 * @param query

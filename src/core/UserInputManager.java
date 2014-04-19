@@ -4,7 +4,6 @@ package core;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -12,15 +11,11 @@ public class UserInputManager {
 
 	private String  	 message;
 	private List<String> options;
-	private int          intoption;
-	private int 		 validateAs;
-	
-	
-	private Pattern pattern;
-	private Matcher matcher;
+	private Pattern 	 pattern;
+	private Matcher 	 matcher;
 
 	private static final String USERNAME_PATTERN =  "^[a-z0-9_-]{2,15}$";
-	private static final String QUESTION_PATTERN =  "^([A-Z]|[0-9]|[a-z]|[\\s]|[!]|[?]){5,100}";
+	private static final String QUESTION_PATTERN =  "^([A-Z]|[0-9]|[a-z]|[\\s]|[!]|[?]){4,100}";
 	private static final String INTIGER_PATTERT  =  "^[0-9]{1,10}";
 
 	 public UserInputManager(String pattern){
@@ -66,7 +61,7 @@ public class UserInputManager {
 		boolean valid = false;
 		String  string = null;
 		// print message with available options
-		System.out.println(this.message);
+		System.out.println((this.message==null)? "" : this.message);
 		System.out.print("Select from (");
 		// show all options
 		for(String option:this.options){
@@ -117,7 +112,7 @@ public class UserInputManager {
 			// validate string
 			valid = this.validateString(string);
 			if(!valid){
-				System.out.print("2 char minumum and Latin only! :");
+				System.out.print("4 char minumum, 100 max and Latin only! :");
 			}
 		}
 		return string;	
@@ -187,5 +182,11 @@ public class UserInputManager {
 		matcher = pattern.matcher(checkstring);
 		return matcher.matches();
 	  }
+	/**
+	 * Clear option list
+	 */
+	public void cleanOptions(){
+		this.options.clear();
+	}
 
 }

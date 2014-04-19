@@ -9,7 +9,7 @@ import core.Global;
 
 public class QuizModel {
 	
-public Quiz getQuiz(int id) throws NullPointerException{
+	public Quiz getQuiz(int id){
 		
 		Quiz quiz = new Quiz();
 		// query 		
@@ -155,7 +155,7 @@ public Quiz getQuiz(int id) throws NullPointerException{
 		
 		
 		String query = 	"SELECT * FROM quiz " +
-						"WHERE quiz_status IS NOT NULL "+
+						"WHERE quiz_status > 0 "+
 						"ORDER BY quiz_id";
 		
 				
@@ -209,6 +209,61 @@ public Quiz getQuiz(int id) throws NullPointerException{
 		
 		return newquiz;
 		
+	}
+	
+	public List<Quiz> getUserQuizList(int userid){
+		
+		List<Quiz> quizList = new ArrayList<Quiz>();
+		
+		
+		String query = 	"SELECT * FROM quiz " +
+						"WHERE quiz_owner ="+userid+" "+
+						"ORDER BY quiz_id";
+		
+				
+		// get results from db		
+		Global.dataBase.getInstance().dataEnquery(query);
+		ResultSet result = Global.dataBase.getInstance().getResult();
+		
+		if(result != null){
+			try {
+
+				while (result.next()) {
+					Quiz quiz = new Quiz();
+					quiz.setId(result.getInt("quiz_id"));
+					quiz.setName(result.getString("quiz_name"));
+					quiz.setOwner(result.getInt("quiz_owner"));
+					quiz.setStatus(result.getInt("quiz_status"));
+					
+					quizList.add(quiz);
+				}
+			} 
+			catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+		Global.dataBase.getInstance().closeConnection();
+		
+		return quizList;
+	}
+	
+	
+	public boolean updateQuizStatus(int quizid, int status, int userid){
+				
+		// update query
+		String query = 	"UPDATE quiz " +
+						"SET quiz_status ="+status+" "+
+						"WHERE quiz_id="+quizid+" "+
+						"AND quiz_owner ="+userid;
+		// get results from db		
+		boolean result = Global.dataBase.getInstance().updateEnquery(query);
+		// close db connection
+		Global.dataBase.getInstance().closeConnection();
+		
+		return result;
 	}
 
 }

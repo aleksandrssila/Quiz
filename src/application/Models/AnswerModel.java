@@ -3,10 +3,8 @@ package application.Models;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
 import core.Global;
 import application.Entities.Answer;
-import application.Entities.Quiz;
 
 public class AnswerModel {
 	

@@ -1,4 +1,4 @@
-package rmi.rmiclient;
+package rmi.client;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.ConnectException;
@@ -10,9 +10,9 @@ import java.rmi.registry.Registry;
 import rmi.rmiinterface.Constant;
 import rmi.rmiinterface.QuizRemote;
 
-public class QuizGameClient {
+public class Client {
 	
-	public static void main (String[] args) throws AlreadyBoundException, RemoteException{
+public static void main (String[] args) throws AlreadyBoundException, RemoteException{
 		
 		try{
 				
@@ -28,15 +28,14 @@ public class QuizGameClient {
 					String action = quizRemote.askLandingPage();
 			
 					if(action.equals("play-quiz")){
-						quizRemote.showQuizGames();
 						quizRemote.getQuizGame();
 					}
 					if(action.equals("my-profile")){
 						
 						String option = quizRemote.askMyQuizOption();
 						
-						if(option.equals("remove-quiz")){
-							
+						if(option.equals("manage-quiz")){
+							quizRemote.manageQuiz();
 						}
 						if(option.equals("add-quiz")){
 							quizRemote.createQuiz();
@@ -57,7 +56,6 @@ public class QuizGameClient {
 		catch(UnmarshalException e){
 			System.out.println("Thank you for visiting! Bye!");
 		}
-		
 	
 	}
 

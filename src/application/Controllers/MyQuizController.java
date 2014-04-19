@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import application.Entities.Answer;
-import application.Entities.Question;
 import application.Entities.Quiz;
 import application.Entities.QuizGame;
 import application.Entities.Result;
@@ -21,10 +20,12 @@ public class MyQuizController {
 	private UserController     userC;
 	
 	public static void main(String [] args){
+	/*
 		MyQuizController test = new MyQuizController();
 		test.userC.user.setId(1);
 		test.userC.user.setName("test");
-		test.seeQuizScore(test.userC.user);
+		test.deactivateUserQuizez(test.userC.user.getId());
+	*/
 	}
 	
 	public MyQuizController(){
@@ -42,28 +43,36 @@ public class MyQuizController {
 		
 		int i = 1;
 		
-		UserInputManager inpM = new UserInputManager("INTIGER_PATTERT");
-		
-		for(Quiz quiz:quizes){
-			inpM.setOption(Integer.toString(i));
-			System.out.println(i+" "+quiz.getName()+" status: "+((quiz.getStatus()>0)? "active": "disabled"));
-			i++;
-		}
-		
-		List<Result> results = new ArrayList<Result>();
-		UserModel userM 	 = new UserModel();
-		// get all results for that quiz
-		inpM.setMessage("");
-		results = userM.getUserResultsByQuizId(quizes.get(Integer.parseInt(inpM.askAction())-1).getId());
-		// show all players score
 		try{
-			if(results.get(0).getId()>0){
-				for(Result res:results){
-					System.out.println("score: "+res.getScore()+" Username: "+res.getUsername());
+			if(quizes.get(0).getId()>0){
+				UserInputManager inpM = new UserInputManager("INTIGER_PATTERT");
+				
+				for(Quiz quiz:quizes){
+					inpM.setOption(Integer.toString(i));
+					System.out.println(i+" "+quiz.getName()+" status: "+((quiz.getStatus()>0)? "active": "disabled"));
+					i++;
+				}
+				
+				List<Result> results = new ArrayList<Result>();
+				UserModel userM 	 = new UserModel();
+				// get all results for that quiz
+				inpM.setMessage("");
+				results = userM.getUserResultsByQuizId(quizes.get(Integer.parseInt(inpM.askAction())-1).getId());
+				// show all players score
+				try{
+					if(results.get(0).getId()>0){
+						for(Result res:results){
+							System.out.println("score: "+res.getScore()+" Username: "+res.getUsername());
+						}
+					}
+				}// if no players were found
+				catch(IndexOutOfBoundsException e){
+					System.out.println("There are no players to show!");
 				}
 			}
-		}catch(IndexOutOfBoundsException e){
-			System.out.println("There are no players to show!");
+		}
+		catch(IndexOutOfBoundsException e){
+			System.out.println("There are no quizez to show!");
 		}	
 	}	
 	/**
@@ -157,6 +166,89 @@ public class MyQuizController {
 				addquiz = false;
 			}
 			
+		}
+	}
+	
+	
+	public void manageQuizUserQuizez(int userid){
+		
+		List<Quiz> quizes = new ArrayList<Quiz>(); 
+		// initialise quiz model
+		QuizModel quizM = new QuizModel();
+		// list of all user quizes
+		quizes = quizM.getUserQuizList(userid);
+		
+		try{
+			// check if the are any quiz games
+			quizes.get(0).getId();
+			int i = 1;
+			
+			UserInputManager inpM = new UserInputManager("INTIGER_PATTERT");
+			
+			for(Quiz quiz:quizes){
+				inpM.setOption(Integer.toString(i));
+				System.out.println(i+" "+quiz.getName()+" status: "+((quiz.getStatus()>0)? "active": "disabled"));
+				i++;
+			}
+			
+			inpM.setMessage("");
+			int input = Integer.parseInt(inpM.askAction())-1;
+			
+			inpM.setMessage("What you would like todo?");
+			inpM.cleanOptions();
+			inpM.setOption("activate");
+			inpM.setOption("disable");
+			
+			String answer = inpM.askAction();
+			// activate quiz
+			if(answer.equals("activate")){
+				if(quizes.get(input).getStatus()>0){
+					System.out.println("Quiz is already active");
+				}
+				else{
+					boolean updated = quizM.updateQuizStatus(quizes.get(input).getId(),1, userid);
+					if(updated){
+						System.out.println("Quiz status was updated!");
+					}else{
+						System.out.println("There was an error!");
+					}
+				}
+			}
+			// disable quiz
+			if(answer.equals("disable")){
+				if(quizes.get(input).getStatus()==0){
+					System.out.println("Quiz is already disabled");
+				}
+				else{
+					boolean updated = quizM.updateQuizStatus(quizes.get(input).getId(),0, userid);
+					if(updated){
+						System.out.println("Quiz status was updated!");
+						/**
+						 * Show list of all users played
+						 */
+						List<Result> results = new ArrayList<Result>();
+						UserModel userM = new UserModel();
+						results = userM.getUserResultsByQuizId(quizes.get(input).getId());
+						// show all players score
+						try{
+							if(results.get(0).getId()>0){
+								for(Result res:results){
+									System.out.println("score: "+res.getScore()+" Username: "+res.getUsername());
+								}
+							}
+						}// if no players were found
+						catch(IndexOutOfBoundsException e){
+							System.out.println("There are no players to show!");
+						}	
+					}else{
+						System.out.println("There was an error!");
+					}
+				}
+			}
+			
+		}
+		catch(IndexOutOfBoundsException e){
+			System.out.println("You have no quizez");
 		}
 	}
 }
