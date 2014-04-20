@@ -7,8 +7,11 @@ import core.Global;
 import application.Entities.Answer;
 
 public class AnswerModel {
-	
-	
+	/**
+	 * 
+	 * @param questionId
+	 * @return
+	 */
 	public List<Answer> getAnswersByQuestionId(int questionId){
 		
 		List<Answer> answers = new ArrayList<Answer>();
@@ -45,7 +48,11 @@ public class AnswerModel {
 		return answers;
 		
 	}
-	
+	/**
+	 * 
+	 * @param answer
+	 * @return
+	 */
 	public Answer insertAnswer(Answer answer){
 		
 		String query = 	"INSERT INTO quiz_answers " +
@@ -68,7 +75,12 @@ public class AnswerModel {
 		return answer;
 		
 	}
-	
+	/**
+	 * 
+	 * @param answer
+	 * @param questionid
+	 * @return
+	 */
 	public Answer updateAnswerQuestionId(Answer answer, int questionid){
 		
 		String query = 	"UPDATE quiz_answers " +

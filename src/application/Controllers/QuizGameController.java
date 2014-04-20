@@ -19,15 +19,15 @@ public class QuizGameController {
 	public  List<QuizGame> quizGame;
 	private Result result;
 	private List<Quiz> quizList;
-	/**
-	 * 
-	 */
+	
 	public QuizGameController(){
 		this.quiz   = new Quiz();
 		this.result = new Result();
 	}
 	/**
 	 * 
+	 * @param user
+	 * @return
 	 */
 	public boolean loadQuiz(User user){
 		
@@ -99,6 +99,7 @@ public class QuizGameController {
 	}
 	/**
 	 * 
+	 * @param userid
 	 */
 	public void playGame(int userid){
 		

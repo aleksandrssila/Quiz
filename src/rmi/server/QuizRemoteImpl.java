@@ -10,9 +10,7 @@ import application.Controllers.UserController;
 import application.Entities.User;
 
 public class QuizRemoteImpl extends UnicastRemoteObject implements QuizRemote{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	
 	public UserController 	  userC;
@@ -47,7 +45,7 @@ public class QuizRemoteImpl extends UnicastRemoteObject implements QuizRemote{
 			this.qgameC.playGame(this.userC.user.getId());
 		}
 	}
-
+	
 	@Override
 	public String askLandingPage() throws RemoteException {
 		String action = this.userC.askLandingPage();

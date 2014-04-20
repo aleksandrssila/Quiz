@@ -19,20 +19,14 @@ public class MyQuizController {
 	private QuizGameController qgameC;
 	private UserController     userC;
 	
-	public static void main(String [] args){
-	/*
-		MyQuizController test = new MyQuizController();
-		test.userC.user.setId(1);
-		test.userC.user.setName("test");
-		test.deactivateUserQuizez(test.userC.user.getId());
-	*/
-	}
-	
 	public MyQuizController(){
 		this.qgameC = new QuizGameController();
 		this.userC  = new UserController();
 	}
-	
+	/**
+	 * 
+	 * @param user
+	 */
 	public void seeQuizScore(User user){
 		
 		List<Quiz> quizes = new ArrayList<Quiz>(); 
@@ -148,8 +142,11 @@ public class MyQuizController {
 			}
 			// tell to class that it will be used
 			Global.dataBase.getInstance().useDb();
-			// create new quiz, and get id
-			this.qgameC.quiz.setId(quizM.createQuiz(this.qgameC.quiz).getId());
+			// for first quiz
+			if(addquiz){
+				// create new quiz, and get id
+				this.qgameC.quiz.setId(quizM.createQuiz(this.qgameC.quiz).getId());
+			}
 			// set question quiz id
 			qGame.question.setQuizId(this.qgameC.quiz.getId());
 			// quiz was inserted
@@ -168,8 +165,10 @@ public class MyQuizController {
 			
 		}
 	}
-	
-	
+	/**
+	 * 
+	 * @param userid
+	 */
 	public void manageQuizUserQuizez(int userid){
 		
 		List<Quiz> quizes = new ArrayList<Quiz>(); 

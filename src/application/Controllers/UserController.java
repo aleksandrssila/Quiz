@@ -113,6 +113,10 @@ public class UserController {
 		
 		return answer;
 	}
+	/**
+	 * 
+	 * @return
+	 */
 	public String askLandingPage(){
 		String answer = null;
 		// Initialise input manager class 

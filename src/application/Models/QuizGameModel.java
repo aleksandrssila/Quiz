@@ -9,7 +9,11 @@ import application.Entities.Quiz;
 import application.Entities.QuizGame;
 
 public class QuizGameModel{
-	
+	/**
+	 * 
+	 * @param quiz
+	 * @return
+	 */
 	public List<QuizGame> getQuizGame(Quiz quiz){
 		
 		List<QuizGame> quizGame    = new ArrayList<QuizGame>();

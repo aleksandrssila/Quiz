@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import core.Global;
-import application.Entities.Question;
 import application.Entities.Result;
 import application.Entities.User;
 
@@ -55,7 +54,12 @@ public class UserModel {
 		return user;
 		
 	}
-	
+	/**
+	 * 
+	 * @param quizId
+	 * @param userId
+	 * @return
+	 */
 	public Result getUserResultByQuizId(int quizId, int userId){
 		
 		Result userR = new Result();
@@ -89,7 +93,11 @@ public class UserModel {
 		return userR;
 		
 	}
-	
+	/**
+	 * 
+	 * @param newuser
+	 * @return
+	 */
 	public User createUser(User newuser){
 				
 		String query = 	"INSERT INTO user VALUES (NULL,'"+newuser.getName()+"','"+newuser.getPassword()+"')";
@@ -111,7 +119,11 @@ public class UserModel {
 		return newuser;
 		
 	}
-	
+	/**
+	 * 
+	 * @param quizId
+	 * @return
+	 */
 	public List<Result> getUserResultsByQuizId(int quizId){
 		
 		List<Result> results = new ArrayList<Result>();
@@ -158,7 +170,11 @@ public class UserModel {
 		return results;
 		
 	}
-	
+	/**
+	 * 
+	 * @param result
+	 * @return
+	 */
 	public Result insertUserResult(Result result){
 		
 		String query =  "INSERT INTO user_result "+

@@ -8,7 +8,12 @@ import core.Global;
 import application.Entities.Question;
 
 public class QuestionModel {
-	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 * @throws NullPointerException
+	 */
 	public Question getQuestion(int id) throws NullPointerException{
 		
 		Question question = new Question();
@@ -46,7 +51,11 @@ public class QuestionModel {
 		return question;
 		
 	}
-	
+	/**
+	 * 
+	 * @param quizId
+	 * @return
+	 */
 	public List<Question> getQuizQuestions(int quizId){
 		
 		List<Question> questionList = new ArrayList<Question>();
@@ -83,7 +92,11 @@ public class QuestionModel {
 		return questionList;
 				
 	}
-	
+	/**
+	 * 
+	 * @param question
+	 * @return
+	 */
 	public Question insertQuestion(Question question){
 		
 		String query = 	"INSERT INTO quiz_questions " +

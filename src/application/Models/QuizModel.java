@@ -8,7 +8,11 @@ import application.Entities.Quiz;
 import core.Global;
 
 public class QuizModel {
-	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public Quiz getQuiz(int id){
 		
 		Quiz quiz = new Quiz();
@@ -45,7 +49,11 @@ public class QuizModel {
 		return quiz;
 		
 	}
-
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
 	public boolean quizExistOnSystem(String name){
 		// query 		
 		String query = 	"SELECT * FROM quiz " +
@@ -71,8 +79,10 @@ public class QuizModel {
 		return check;
 		
 	}
-
-
+	/**
+	 * 
+	 * @return
+	 */
 	public List<Quiz> getQuizList(){
 		
 		List<Quiz> quizList = new ArrayList<Quiz>();
@@ -109,7 +119,11 @@ public class QuizModel {
 		
 		return quizList;
 	}
-	
+	/**
+	 * 
+	 * @param userid
+	 * @return
+	 */
 	public List<Quiz> getUserList(int userid){
 		
 		List<Quiz> quizList = new ArrayList<Quiz>();
@@ -148,7 +162,10 @@ public class QuizModel {
 		
 		return quizList;
 	}
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public List<Quiz> getActiveQuizList(){
 		
 		List<Quiz> quizList = new ArrayList<Quiz>();
@@ -188,7 +205,11 @@ public class QuizModel {
 		
 		return quizList;
 	}
-	
+	/**
+	 * 
+	 * @param newquiz
+	 * @return
+	 */
 	public Quiz createQuiz(Quiz newquiz){
 		
 		String query = 	"INSERT INTO quiz VALUES (NULL,'"+newquiz.getName()+"','"+newquiz.getOwner()+"',NULL)";
@@ -210,7 +231,11 @@ public class QuizModel {
 		return newquiz;
 		
 	}
-	
+	/**
+	 * 
+	 * @param userid
+	 * @return
+	 */
 	public List<Quiz> getUserQuizList(int userid){
 		
 		List<Quiz> quizList = new ArrayList<Quiz>();
@@ -249,8 +274,13 @@ public class QuizModel {
 		
 		return quizList;
 	}
-	
-	
+	/**
+	 * 
+	 * @param quizid
+	 * @param status
+	 * @param userid
+	 * @return
+	 */
 	public boolean updateQuizStatus(int quizid, int status, int userid){
 				
 		// update query
