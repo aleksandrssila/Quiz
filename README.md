@@ -1,6 +1,10 @@
 Quiz
 ====
 
+Please run:
+src/rmi/server/Server.java (start server)
+/src/rmi/client/Client.java (run client)
+
 To create user account please type non existing username and system will ask you to register.
 Or you can use Login:test Password:test alternatively
 
